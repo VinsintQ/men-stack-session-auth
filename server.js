@@ -1,3 +1,4 @@
+
 const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
@@ -13,15 +14,25 @@ const port = process.env.PORT ? process.env.PORT : "3000";
 
 //MIDDLEWARE
 
-
+//CONTROLLER 
+const authCtrl = require("./controllers/auth.js");
 // Middleware to parse URL-encoded data from forms
 app.use(express.urlencoded({ extended: false }));
 // Middleware for using HTTP verbs such as PUT or DELETE
 app.use(methodOverride("_method"));
 // Morgan for logging HTTP requests
 app.use(morgan('dev'));
+app.get("/",async (req,res)=>{
+  res.render('index.ejs');
 
-//OUR ROUTES 
+})
+//ROUTES 
+app.use("/auth", authController);
+
+
+
+
+
 app.listen(port, () => {
   console.log(`The express app is ready on port ${port}!`);
 });
