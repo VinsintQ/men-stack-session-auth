@@ -58,5 +58,24 @@ router.post("/sign-in", async (req, res) => {
   if (!validPassword) {
     res.send('Some things Invalid"');
   }
+
+  req.session.user = {
+    username: exisitingUser.username,
+    _id: exisitingUser.id,
+  };
+  console.log(req.session.user);
+  // res.redirect("/");
+  // if we use database session strategy we need ti listen to session store
+  req.session.save(() => {
+    res.redirect("/");
+  });
 });
+router.get("/sign-out", (req, res) => {
+  // req.session.destroy();
+  // res.redirect("/");
+  req.session.destroy(() => {
+    res.redirect("/");
+  });
+});
+
 module.exports = router;
