@@ -4,12 +4,10 @@ const bcrypt = require("bcrypt");
 const router = express.Router();
 const dotenv = require("dotenv");
 dotenv.config();
-//------------------render sign up plate-----------------
+// -----------------Register---------------------
 router.get("/sign-up", (req, res, next) => {
   res.render("auth/sign-up.ejs");
 });
-
-// -----------------submit the form----------------------
 router.post("/sign-up", async (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -40,5 +38,25 @@ router.post("/sign-up", async (req, res, next) => {
     next(error);
   }
 });
+// --------------LOGIN--------------------
+router.get("/sign-in", (req, res) => {
+  res.render("auth/sign-in.ejs");
+});
+router.post("/sign-in", async (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
 
+  const exisitingUser = await User.findOne({
+    username: req.body.username,
+  });
+
+  if (!exisitingUser) {
+    return res.send("Some things Invalid");
+  }
+  const validPassword = await bcrypt.compare(password, exisitingUser.password);
+
+  if (!validPassword) {
+    res.send('Some things Invalid"');
+  }
+});
 module.exports = router;
