@@ -16,7 +16,7 @@ const port = process.env.PORT ? process.env.PORT : "3000";
 //CONTROLLER
 const authCtrl = require("./controllers/auth.js");
 // Middleware to parse URL-encoded data from forms
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false })); //takes form date convert it to object (saved in the body)
 // Middleware for using HTTP verbs such as PUT or DELETE
 app.use(methodOverride("_method"));
 // Morgan for logging HTTP requests
